@@ -1,0 +1,56 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+import os
+
+# Fetch credentials from environment variables
+USERNAME = os.getenv('CRYPTO_USERNAME')
+PASSWORD = os.getenv('CRYPTO_PASSWORD')
+
+# Set up Chrome options
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')  # Run in headless mode
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+# Path to your ChromeDriver
+driver_path = '/path/to/chromedriver'  # Update this path if necessary
+
+# Initialize the WebDriver
+driver = webdriver.Chrome(driver_path, options=options)
+
+try:
+    # Open the crypto website
+    driver.get('https://your-crypto-website.com')
+
+    # Wait for the page to load
+    time.sleep(5)
+
+    # Locate and interact with the login fields
+    username_field = driver.find_element(By.NAME, 'username')  # Update with actual selector
+    password_field = driver.find_element(By.NAME, 'password')  # Update with actual selector
+    login_button = driver.find_element(By.XPATH, '//*[@id="login-button"]')  # Update with actual selector
+
+    # Enter your credentials
+    username_field.send_keys(USERNAME)
+    password_field.send_keys(PASSWORD)
+
+    # Click the login button
+    login_button.click()
+
+    # Wait for login to complete
+    time.sleep(5)
+
+    # Navigate to daily check-in section (update the XPath as necessary)
+    check_in_button = driver.find_element(By.XPATH, '//*[@id="daily-checkin-button"]')  # Update with actual selector
+
+    # Click the daily check-in button
+    check_in_button.click()
+
+    # Wait to ensure the task is complete
+    time.sleep(3)
+
+finally:
+    # Close the driver
+    driver.quit()
